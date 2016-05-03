@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SQLiteProdutoImagemListView</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_Produto">Adicionar Produto</string>
+    <string name="list_Produto">Listar Produtos</string>
+    <string name="search_Produto">Pesquisar Produto</string>
+
+</resources>
