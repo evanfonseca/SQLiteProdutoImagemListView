@@ -6,21 +6,21 @@ import java.util.Calendar;
 /**
  * Created by enfonseca on 5/1/16.
  */
-public class Imagem {
+public class Image {
 
     private String title, description, path;
     private long datetimeLong;
     private SimpleDateFormat df = new SimpleDateFormat("MMMM d, yy  h:mm");
 
-    public Imagem(String title, String description, String path,
-                  long datetimeLong) {
+    public Image(String title, String description, String path,
+                 long datetimeLong) {
         this.title = title;
         this.description = description;
         this.path = path;
         this.datetimeLong = datetimeLong;
     }
 
-    public Imagem() {
+    public Image() {
     }
 
     /**
