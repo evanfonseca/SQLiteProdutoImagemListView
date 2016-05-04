@@ -89,5 +89,6 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_PRODUCT);
         db.execSQL(DELETE_TABLE_PRODUCTIMAGE);
         onCreate(db);
+
     }
 }
