@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <include layout="@layout/toolbar" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -36,5 +38,6 @@
         android:onClick="btnListOnClick"
         android:text="@string/list_Produto"
         android:layout_marginBottom="10dp"/>
+
 
 </LinearLayout>
