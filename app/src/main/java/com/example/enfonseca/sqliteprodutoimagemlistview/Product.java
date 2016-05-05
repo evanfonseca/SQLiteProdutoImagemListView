@@ -21,26 +21,26 @@ public class Product {
         return name;
     }
 
-    public void setNome(String nome) {
-        this.name = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getPreco() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPreco(double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public Product(int id, String nome, double price) {
+    public Product(int id, String name, double price) {
         this.id = id;
-        this.name = nome;
+        this.name = name;
         this.price = price;
     }
 
-    public Product(String nome, double price) {
-        this.name = nome;
+    public Product(String name, double price) {
+        this.name = name;
         this.price = price;
     }
 

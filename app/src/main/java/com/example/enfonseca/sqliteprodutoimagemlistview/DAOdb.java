@@ -37,6 +37,9 @@ public class DAOdb {
 
 
 
+
+    //DAO OF IMAGE
+
     /**
      * insert a text report item to the location database table
      *
@@ -107,19 +110,79 @@ public class DAOdb {
 
 
     /**
-     * @return all image by ID Contact as a List
+     * @return all image by ID Product as a List
      */
     public List<Image> getImagesbyIdProduct(int idProduct) {
         List<Image> MyImages = new ArrayList<>();
 
-        String getIDsImages = "Select "+ DBhelper.COLUMN_IMAGE_ID +" " +
-                              "from "+DBhelper.TABLE_PRODUCT_IMAGE +" " +
-                              " Where "+DBhelper.COLUMN_PRODUCT_ID +" ="+idProduct;
+        String getImages = "Select  * from " + DBhelper.TABLE_IMAGE +" ," + DBhelper.TABLE_PRODUCT_IMAGE +
+                              " Where "+DBhelper.COLUMN_IMAGE_ID+" ="+DBhelper.COLUMN_ID_IMAGE +" AND"
+                                +DBhelper.COLUMN_PRODUCT_ID +" ="+idProduct;
 
-
+        Cursor mCursor = database.rawQuery(getImages,null);
+        mCursor.moveToFirst();
+        while (!mCursor.isAfterLast()) {
+            Image MyImage = cursorToImage(mCursor);
+            MyImages.add(MyImage);
+            mCursor.moveToNext();
+        }
+        mCursor.close();
         return MyImages;
     }
 
 
+
+
+
+
+    //DAO OF PRODUCT
+    // Adicionar um produto
+    /**
+     * insert a text report item to the location database table
+     *
+     * @param
+     * @return the row ID of the newly inserted row, or -1 if an error occurred
+     */
+    public long addProduct(Product p) {
+        ContentValues cv = new ContentValues();
+        cv.put(DBhelper.COLUMN_NAME, p.getName());
+        cv.put(DBhelper.COLUMN_PRICE, p.getPrice());
+        return database.insert(DBhelper.TABLE_PRODUCT, null, cv);
+    }
+
+
+    /**
+     * delete the given image from database
+     *
+     * @param
+     */
+    public void deleteProduct(Product p) {
+        String whereClause =
+                DBhelper.COLUMN_ID_PRODUCT + "=? ";
+        String[] whereArgs = new String[]{String.valueOf(p.getId())};
+        database.delete(DBhelper.TABLE_PRODUCT, whereClause, whereArgs);
+    }
+
+
+
+    /**
+     * @return all Product as a List
+     */
+    /*
+    public List<Image> getAllProduct() {
+        List<Image> MyProducts = new ArrayList<>();
+        Cursor cursor =
+                database.query(DBhelper.TABLE_PRODUCT, null, null, null, null,
+                        null, DBhelper.COLUMN_NAME + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Product MyProduct = cursorToImage(cursor);
+            MyImages.add(MyImage);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return MyImages;
+    }
+    */
 
 }
