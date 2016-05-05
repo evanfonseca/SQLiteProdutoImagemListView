@@ -18,12 +18,12 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public static final String TABLE_IMAGE = "image";
     public static final String TABLE_PRODUCT = "product";
-    public static final String TABLE_PRODUCTI_IMAGE = "product_imagem";
+    public static final String TABLE_PRODUCT_IMAGE = "product_imagem";
 
     public static final String COLUMN_PATH = "path";
 
     //Colunas da tabela Imagem
-    private static final String COLUMN_ID_IMAGE = "id";
+    public static final String COLUMN_ID_IMAGE = "id";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DATETIME = "datetime";
     public static final String COLUMN_DESCRIPTION = "description";
@@ -31,15 +31,15 @@ public class DBhelper extends SQLiteOpenHelper {
 
 
     //Colunas da tabela Produto
-    private static final String COLUMN_ID_PRODUCT = "id";
+    public static final String COLUMN_ID_PRODUCT = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_PRICE = "price";
     public static final String PRIMARY_KEY_PRODUCT = "PRIMARY KEY (" + COLUMN_ID_PRODUCT + ")";
 
 
     //Colunas da tabela ProdutoImagem
-    private static final String COLUMN_PRODUCT_ID = "idP";
-    private static final String COLUMN_IMAGE_ID = "idIm";
+    public static final String COLUMN_PRODUCT_ID = "idP";
+    public static final String COLUMN_IMAGE_ID = "idIm";
     public static final String PRIMARY_KEY_PRODUCTIMAGE = "PRIMARY KEY ("  + COLUMN_PRODUCT_ID + "," + COLUMN_IMAGE_ID + ")";
 
 
@@ -65,8 +65,8 @@ public class DBhelper extends SQLiteOpenHelper {
 
 
     //TABELA PRODUTOIMAGEM Script para (Criar e Apagar)
-    private static final String DELETE_TABLE_PRODUCTIMAGE = "DROP TABLE IF EXISTS " + TABLE_PRODUCTI_IMAGE;
-    private static final String CREATE_TABLE_PRODUCTIMAGE = "CREATE TABLE " + TABLE_PRODUCTI_IMAGE + " (" +
+    private static final String DELETE_TABLE_PRODUCTIMAGE = "DROP TABLE IF EXISTS " + TABLE_PRODUCT_IMAGE;
+    private static final String CREATE_TABLE_PRODUCTIMAGE = "CREATE TABLE " + TABLE_PRODUCT_IMAGE + " (" +
             COLUMN_PRODUCT_ID + INTEGER_TYPE + COMMA_SEP +
             COLUMN_IMAGE_ID + INTEGER_TYPE + COMMA_SEP +
             PRIMARY_KEY_PRODUCTIMAGE +
