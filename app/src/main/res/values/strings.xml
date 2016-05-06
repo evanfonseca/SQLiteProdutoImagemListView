@@ -4,5 +4,8 @@
     <string name="add_Produto">Adicionar Produto</string>
     <string name="list_Produto">Listar Produtos</string>
     <string name="search_Produto">Pesquisar Produto</string>
+    <string name="nomeProduto">Nome do Producto</string>
+    <string name="precoProduto">Preço</string>
+    <string name="title_activity_adicionar_produto">AdicionarProduto</string>
 
 </resources>

@@ -131,10 +131,6 @@ public class DAOdb {
     }
 
 
-
-
-
-
     //DAO OF PRODUCT
     // Adicionar um produto
     /**
@@ -168,21 +164,34 @@ public class DAOdb {
     /**
      * @return all Product as a List
      */
-    /*
-    public List<Image> getAllProduct() {
-        List<Image> MyProducts = new ArrayList<>();
-        Cursor cursor =
-                database.query(DBhelper.TABLE_PRODUCT, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
+
+    public List<Product> getAllProduct() {
+        List<Product> MyProducts = new ArrayList<>();
+
+        Cursor cursor = database.query(DBhelper.TABLE_PRODUCT, null, null, null, null, null, null);
+
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Product MyProduct = cursorToImage(cursor);
-            MyImages.add(MyImage);
+            Product p = cursorToProduct(cursor);
+            MyProducts.add(p);
             cursor.moveToNext();
         }
         cursor.close();
-        return MyImages;
+        return MyProducts;
     }
-    */
+
+    private Product cursorToProduct(Cursor cursor) {
+
+        Product mProduct = new Product();
+
+        mProduct.setName(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_NAME)));
+        mProduct.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_PRICE))));
+
+        return mProduct;
+    }
+
+
+
+
 
 }
