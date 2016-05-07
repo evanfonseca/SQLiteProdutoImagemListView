@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.enfonseca.produtossqlite.Inserir"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <include layout="@layout/toolbar" />
 
@@ -25,15 +32,33 @@
         android:hint="Preço"
         android:inputType="numberDecimal" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_img_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inserir Imagem"
-        android:id="@+id/insertImage" />
+        android:text="Carregar Imagem"
+        android:id="@+id/insertImage"
+        android:onClick="btnAddOnClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Inserir"
         android:id="@+id/inserirProduto" />
+
 </LinearLayout>
+
+</ScrollView>

@@ -1,5 +1,6 @@
 package com.example.enfonseca.sqliteprodutoimagemlistview;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void AddProduct(View v){
+
+        Intent intent= new Intent(MainActivity.this,AdicionarProduto.class);
+        startActivity(intent);
     }
 
     @Override
