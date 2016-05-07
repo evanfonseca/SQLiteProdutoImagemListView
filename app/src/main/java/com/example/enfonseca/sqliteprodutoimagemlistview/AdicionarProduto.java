@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 public class AdicionarProduto extends AppCompatActivity {
 
@@ -20,10 +27,15 @@ public class AdicionarProduto extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private Uri mCapturedImageURI;
 
+    private final int THUMBSIZE = 96;
+    ImageView imageP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_produto);
+
+        imageP = (ImageView) findViewById(R.id.item_img_icon);
 
 
 
@@ -38,6 +50,10 @@ public class AdicionarProduto extends AppCompatActivity {
     private void activeGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
+
+
         startActivityForResult(intent, RESULT_LOAD_IMAGE);
 
     }
@@ -58,6 +74,8 @@ public class AdicionarProduto extends AppCompatActivity {
                             values);
             takePictureIntent
                     .putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+
+
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
 
@@ -127,6 +145,24 @@ public class AdicionarProduto extends AppCompatActivity {
                     image.setDatetime(System.currentTimeMillis());
                     image.setPath(picturePath);
 
+                    //Insert Data for Product Here
+                    //images.add(image);
+                    //daOdb.addImage(image);
+
+
+                    try {
+                        Bitmap  mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        ImageView my_img_view = (ImageView ) findViewById (R.id.item_img_icon);
+                        my_img_view.setImageBitmap(mBitmap);
+
+
+                        //ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mBitmap));
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
 
                     //Insert Data for Product Here
                     //images.add(image);
@@ -155,6 +191,37 @@ public class AdicionarProduto extends AppCompatActivity {
                     */
                 }
         }
+    }
+
+
+
+    @Override protected void onSaveInstanceState(Bundle outState) {
+        // Save the user's current game state
+        if (mCapturedImageURI != null) {
+            outState.putString("mCapturedImageURI",
+                    mCapturedImageURI.toString());
+        }
+
+
+
+            outState.putString("RESULT_LOAD_IMAGE",
+                    ""+RESULT_LOAD_IMAGE);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state members from saved instance
+        if (savedInstanceState.containsKey("mCapturedImageURI")) {
+            mCapturedImageURI = Uri.parse(
+                    savedInstanceState.getString("mCapturedImageURI"));
+        }
+
+
     }
 
 
