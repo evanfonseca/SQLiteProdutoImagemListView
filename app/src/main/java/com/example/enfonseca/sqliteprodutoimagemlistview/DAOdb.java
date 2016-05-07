@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +117,7 @@ public class DAOdb {
         List<Image> MyImages = new ArrayList<>();
 
         String getImages = "Select  * from " + DBhelper.TABLE_IMAGE +" ," + DBhelper.TABLE_PRODUCT_IMAGE +
-                              " Where "+DBhelper.COLUMN_IMAGE_ID+" ="+DBhelper.COLUMN_ID_IMAGE +" AND"
+                              " Where "+DBhelper.COLUMN_IMAGE_ID+" ="+DBhelper.COLUMN_ID_IMAGE +" AND "
                                 +DBhelper.COLUMN_PRODUCT_ID +" ="+idProduct;
 
         Cursor mCursor = database.rawQuery(getImages,null);
@@ -183,12 +184,37 @@ public class DAOdb {
     private Product cursorToProduct(Cursor cursor) {
 
         Product mProduct = new Product();
-
+        mProduct.setId(cursor.getInt(cursor.getColumnIndex(DBhelper.COLUMN_ID_PRODUCT)));
         mProduct.setName(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_NAME)));
         mProduct.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_PRICE))));
 
         return mProduct;
     }
+
+
+    public void AddProductWithListImage(Product p, ArrayList<Image> imageList){
+
+        long idProduct=this.addProduct(p);
+
+        //Log.d("AKI","AKI");
+
+        for (Image i: imageList) {
+
+            long idImage = addImage(i);
+
+            ContentValues cv = new ContentValues();
+            cv.put(DBhelper.COLUMN_PRODUCT_ID, idProduct);
+            cv.put(DBhelper.COLUMN_IMAGE_ID, idImage);
+            long idPI= database.insert(DBhelper.TABLE_PRODUCT_IMAGE, null, cv);
+
+            //Toast.makeText(this," "+idPI,Toast.LENGTH_LONG).show();
+
+            Log.d("Insert",""+idPI);
+
+        }
+
+    }
+
 
 
 

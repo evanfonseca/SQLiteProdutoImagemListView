@@ -3,6 +3,7 @@ package com.example.enfonseca.sqliteprodutoimagemlistview;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +22,21 @@ public class ProdutoAdapter extends ArrayAdapter<Product> {
 
     private final int THUMBSIZE = 96;
     DAOdb daodb;
-
+    ArrayList<Product> ListProducts;
+    Context context;
 
     private static class ViewHolder {
         ImageView imgIcon;
         TextView name;
         TextView price;
+
     }
 
 
     public ProdutoAdapter(Context context, ArrayList<Product> Products) {
         super(context, 0, Products);
+        this.context=context;
+        this.ListProducts=Products;
 
     }
 
@@ -56,19 +61,34 @@ public class ProdutoAdapter extends ArrayAdapter<Product> {
 
         // Get the data item for this position
         Product  product = getItem(position);
+
+
         // set description text
         viewHolder.name.setText(product.getName());
         viewHolder.price.setText(""+product.getPrice());
 
 
         daodb= new DAOdb(getContext());
+
+        Log.d("ProductID",""+product.getId());
+
+
         List<Image> ListImages= daodb.getImagesbyIdProduct(product.getId());
 
-        Image im = ListImages.get(ListImages.size()-1);
+
+
+
+        //Por enquanto não utlizar todas as imagens ,   utiliza-se a ultima
+        Image im = ListImages.get(0);
+
+        Log.d("im.getPath()",""+im.getPath());
         // set image icon
+
         viewHolder.imgIcon.setImageBitmap(ThumbnailUtils
                 .extractThumbnail(BitmapFactory.decodeFile(im.getPath()),
                         THUMBSIZE, THUMBSIZE));
+
+
         return convertView;
     }
 

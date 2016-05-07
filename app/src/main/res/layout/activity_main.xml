@@ -14,7 +14,7 @@
         android:background="@color/deepPurple4"
         android:textColor="@color/white"
         android:id="@+id/btnAdd"
-        android:onClick="AddProduct"
+        android:onClick="btnAddProductOnClick"
         android:text="@string/add_Produto"
         android:layout_marginBottom="10dp"/>
 

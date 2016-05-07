@@ -14,12 +14,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdicionarProduto extends AppCompatActivity {
 
@@ -27,8 +31,15 @@ public class AdicionarProduto extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private Uri mCapturedImageURI;
 
+    private DAOdb daOdb;
+
     private final int THUMBSIZE = 96;
     ImageView imageP;
+    EditText nome,preco;
+
+    //Quando tiver adicionar várias imagens para um produto
+    ArrayList<Image> myImageList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +47,29 @@ public class AdicionarProduto extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_produto);
 
         imageP = (ImageView) findViewById(R.id.item_img_icon);
+        nome= (EditText) findViewById(R.id.nome);
+        preco= (EditText) findViewById(R.id.preco);
+        myImageList = new ArrayList<Image>() ;
 
 
 
     }
+
+    public  void insertProduct(View view){
+
+        daOdb = new DAOdb(this);
+        Product product=new Product();
+
+        String name=nome.getText().toString();
+        product.setName(name);
+
+        Double price= Double.parseDouble(preco.getText().toString());
+        product.setPrice(price);
+
+        Log.d("AKI", "AKI");
+        daOdb.AddProductWithListImage(product, myImageList);
+    }
+
 
 
 
@@ -145,19 +175,15 @@ public class AdicionarProduto extends AppCompatActivity {
                     image.setDatetime(System.currentTimeMillis());
                     image.setPath(picturePath);
 
-                    //Insert Data for Product Here
-                    //images.add(image);
-                    //daOdb.addImage(image);
-
-
                     try {
-                        Bitmap  mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        Bitmap  mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                         ImageView my_img_view = (ImageView ) findViewById (R.id.item_img_icon);
                         my_img_view.setImageBitmap(mBitmap);
 
-
-                        //ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mBitmap));
-
+                        //Quando tiver que adicionar muitas imagens, utiliza lista neste caso com um "for each"
+                        myImageList.add(image);
+                        //images.add(image);
+                        //daOdb.addImage(image);
 
                     } catch (IOException e) {
                         e.printStackTrace();

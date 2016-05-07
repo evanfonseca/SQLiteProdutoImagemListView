@@ -22,6 +22,11 @@
             android:name=".AdicionarProduto"
             android:label="@string/title_activity_adicionar_produto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ListProduct"
+            android:label="@string/list_Produto"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

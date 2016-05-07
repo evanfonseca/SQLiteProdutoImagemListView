@@ -31,9 +31,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void AddProduct(View v){
+    public void btnAddProductOnClick(View v){
 
         Intent intent= new Intent(MainActivity.this,AdicionarProduto.class);
+        startActivity(intent);
+    }
+
+    public void btnListOnClick(View v){
+
+        Intent intent= new Intent(MainActivity.this,ListProduct.class);
         startActivity(intent);
     }
 
