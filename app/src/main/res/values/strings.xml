@@ -7,5 +7,6 @@
     <string name="nomeProduto">Nome do Producto</string>
     <string name="precoProduto">Preço</string>
     <string name="title_activity_adicionar_produto">AdicionarProduto</string>
+    <string name="title_activity_show_product">ShowProduct</string>
 
 </resources>

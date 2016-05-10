@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +31,19 @@ public class AdicionarProduto extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private Uri mCapturedImageURI;
-
-    private DAOdb daOdb;
-
     private final int THUMBSIZE = 96;
+    private DAOdb daOdb;
+    private  Uri imageChoosenUri=null;
+    Bitmap  mBitmap=null;
+
+
+
+
     ImageView imageP;
-    EditText nome,preco;
+    ImageView my_img_view;
+    EditText name,price;
+    String nome="";
+    Double preco=0.0;
 
     //Quando tiver adicionar várias imagens para um produto
     ArrayList<Image> myImageList;
@@ -47,9 +55,35 @@ public class AdicionarProduto extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_produto);
 
         imageP = (ImageView) findViewById(R.id.item_img_icon);
-        nome= (EditText) findViewById(R.id.nome);
-        preco= (EditText) findViewById(R.id.preco);
+        name= (EditText) findViewById(R.id.nome);
+
+
+
+        price= (EditText) findViewById(R.id.preco);
+
+
         myImageList = new ArrayList<Image>() ;
+
+        my_img_view = (ImageView ) findViewById (R.id.item_img_icon);
+
+        if (savedInstanceState!=null){
+            imageChoosenUri = Uri.parse(
+                    savedInstanceState.getString("imageChoosenUri"));
+
+            mBitmap = savedInstanceState.getParcelable("mBitmap");
+
+            nome=savedInstanceState.getString("nome");
+            preco=savedInstanceState.getDouble("preco");
+
+            myImageList = (ArrayList<Image>)savedInstanceState.getSerializable("myImageList");
+        }
+
+        name.setText(nome);
+        price.setText(preco.toString());
+
+        if(mBitmap!=null){
+            my_img_view.setImageBitmap(mBitmap);
+        }
 
 
 
@@ -60,16 +94,15 @@ public class AdicionarProduto extends AppCompatActivity {
         daOdb = new DAOdb(this);
         Product product=new Product();
 
-        String name=nome.getText().toString();
-        product.setName(name);
+        nome =name.getText().toString();
+        product.setName(nome);
 
-        Double price= Double.parseDouble(preco.getText().toString());
-        product.setPrice(price);
+        preco= Double.parseDouble(price.getText().toString());
+        product.setPrice(preco);
 
         Log.d("AKI", "AKI");
         daOdb.AddProductWithListImage(product, myImageList);
     }
-
 
 
 
@@ -123,13 +156,6 @@ public class AdicionarProduto extends AppCompatActivity {
             @Override public void onClick(View v) {
                 dialog.dismiss();
 
-                /*
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-                */
-
-
             }
         });
         dialog.findViewById(R.id.btnChoosePath)
@@ -167,6 +193,7 @@ public class AdicionarProduto extends AppCompatActivity {
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
+
                     Image image = new Image();
                     image.setTitle("Test");
                     image.setDescription(
@@ -175,24 +202,14 @@ public class AdicionarProduto extends AppCompatActivity {
                     image.setDatetime(System.currentTimeMillis());
                     image.setPath(picturePath);
 
-                    try {
-                        Bitmap  mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                        ImageView my_img_view = (ImageView ) findViewById (R.id.item_img_icon);
-                        my_img_view.setImageBitmap(mBitmap);
 
-                        //Quando tiver que adicionar muitas imagens, utiliza lista neste caso com um "for each"
-                        myImageList.add(image);
-                        //images.add(image);
-                        //daOdb.addImage(image);
+                    //Quando tiver que adicionar muitas imagens, utiliza lista neste caso com um "for each"
+                    myImageList.add(image);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    //Toast.makeText(this,""+selectedImage,Toast.LENGTH_LONG).show();
 
+                    imageChoosenUri=selectedImage;
 
-                    //Insert Data for Product Here
-                    //images.add(image);
-                    //daOdb.addImage(image);
                 }
             case REQUEST_IMAGE_CAPTURE:
                 if (requestCode == REQUEST_IMAGE_CAPTURE &&
@@ -205,17 +222,32 @@ public class AdicionarProduto extends AppCompatActivity {
                             MediaStore.Images.Media.DATA);
                     cursor.moveToFirst();
                     String picturePath = cursor.getString(column_index_data);
-                    /*
-                    MyImage image = new MyImage();
-                    image.setTitle("Test");
-                    image.setDescription(
+
+                    Image myImage = new Image();
+
+                    myImage.setTitle("Test");
+                    myImage.setDescription(
                             "test take a photo and add it to list view");
-                    image.setDatetime(System.currentTimeMillis());
-                    image.setPath(picturePath);
-                    images.add(image);
-                    daOdb.addImage(image);
-                    */
+                    myImage.setDatetime(System.currentTimeMillis());
+                    myImage.setPath(picturePath);
+
+                    //Quando tiver que adicionar muitas imagens, utiliza lista neste caso com um "for each"
+                    myImageList.add(myImage);
+
+                    //Toast.makeText(this,""+mCapturedImageURI,Toast.LENGTH_LONG).show();
+
+                    imageChoosenUri=mCapturedImageURI;
+
                 }
+        }
+
+
+        try {
+            mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageChoosenUri);
+            my_img_view.setImageBitmap(mBitmap);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -227,6 +259,23 @@ public class AdicionarProduto extends AppCompatActivity {
             outState.putString("mCapturedImageURI",
                     mCapturedImageURI.toString());
         }
+
+        if (imageChoosenUri != null) {
+            outState.putString("imageChoosenUri",
+                    imageChoosenUri.toString());
+        }
+
+        //mBitmap
+        if (mBitmap != null) {
+            outState.putParcelable("mBitmap", mBitmap);;
+        }
+
+
+        outState.putString("nome", nome);
+        outState.putDouble("preco", preco);
+
+
+        outState.putSerializable("myImageList", myImageList);
 
 
 
@@ -246,6 +295,16 @@ public class AdicionarProduto extends AppCompatActivity {
             mCapturedImageURI = Uri.parse(
                     savedInstanceState.getString("mCapturedImageURI"));
         }
+
+        //imageChoosenUri
+
+        // Restore state members from saved instance
+        if (savedInstanceState.containsKey("imageChoosenUri")) {
+            imageChoosenUri = Uri.parse(
+                    savedInstanceState.getString("imageChoosenUri"));
+        }
+
+        myImageList = (ArrayList<Image>)savedInstanceState.getSerializable("myImageList");
 
 
     }

@@ -1,7 +1,10 @@
 package com.example.enfonseca.sqliteprodutoimagemlistview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -40,9 +43,32 @@ public class ListProduct extends AppCompatActivity {
 
         //addItemClickListener(listView);
 
+        // ListView on item selected listener.
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
+
+
+
+                Product product= Products.get(position);
+                int ID=product.getId();
+
+
+                Intent intent = new Intent(ListProduct.this,ShowProduct.class);
+                intent.putExtra("ID", ID);
+
+                startActivity(intent);
+            }
+        });
 
     }
+
+
+
+
 
     /**
      * initialize database

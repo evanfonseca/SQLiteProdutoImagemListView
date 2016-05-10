@@ -191,6 +191,15 @@ public class DAOdb {
         return mProduct;
     }
 
+    public Product getProductById(int idP){
+
+        String getProduct = "Select  * from " + DBhelper.TABLE_PRODUCT +
+                            " Where " +DBhelper.COLUMN_ID_PRODUCT +" ="+idP;
+
+        Product p=new Product();
+        return p;
+    }
+
 
     public void AddProductWithListImage(Product p, ArrayList<Image> imageList){
 
