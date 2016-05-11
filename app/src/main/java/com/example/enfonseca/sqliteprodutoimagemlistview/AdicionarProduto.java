@@ -95,13 +95,28 @@ public class AdicionarProduto extends AppCompatActivity {
         Product product=new Product();
 
         nome =name.getText().toString();
-        product.setName(nome);
-
         preco= Double.parseDouble(price.getText().toString());
-        product.setPrice(preco);
 
-        Log.d("AKI", "AKI");
-        daOdb.AddProductWithListImage(product, myImageList);
+        if(nome!="" && preco!=0.0){
+
+            product.setName(nome);
+            product.setPrice(preco);
+            daOdb.AddProductWithListImage(product, myImageList);
+            Toast.makeText(this,product.getName()+" com preço "+ product.getPrice() +" inserido com sucesso!",Toast.LENGTH_SHORT).show();
+
+            nome="";
+            preco=0.0;
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this,"Insere nome e preço do produto",Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
     }
 
 
