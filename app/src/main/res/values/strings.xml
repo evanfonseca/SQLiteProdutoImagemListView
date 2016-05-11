@@ -8,5 +8,6 @@
     <string name="precoProduto">Preço</string>
     <string name="title_activity_adicionar_produto">AdicionarProduto</string>
     <string name="title_activity_show_product">ShowProduct</string>
+    <string name="title_activity_search_product">SearchProduct</string>
 
 </resources>

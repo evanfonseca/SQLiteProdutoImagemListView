@@ -46,19 +46,29 @@
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Carregar Imagem"
-        android:id="@+id/insertImage"
-        android:onClick="btnAddOnClick" />
+
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inserir"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/deepPurple4"
+        android:textColor="@color/white"
+        android:id="@+id/insertImage"
+        android:onClick="btnAddOnClick"
+        android:text="Carregar Imagem"
+        android:layout_marginBottom="10dp"/>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/deepPurple4"
+        android:textColor="@color/white"
         android:id="@+id/inserirProduto"
-        android:onClick="insertProduct" />
+        android:onClick="insertProduct"
+        android:text="Inserir"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>
 

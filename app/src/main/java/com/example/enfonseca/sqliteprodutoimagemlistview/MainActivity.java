@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void btnSearchOnClick(View v){
+
+    }
+
     public void btnListOnClick(View v){
 
         Intent intent= new Intent(MainActivity.this,ListProduct.class);
