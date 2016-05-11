@@ -196,7 +196,16 @@ public class DAOdb {
         String getProduct = "Select  * from " + DBhelper.TABLE_PRODUCT +
                             " Where " +DBhelper.COLUMN_ID_PRODUCT +" ="+idP;
 
+        Cursor mCursor = database.rawQuery(getProduct, null);
+        mCursor.moveToFirst();
+
         Product p=new Product();
+
+        if(mCursor!=null){
+            p=cursorToProduct(mCursor);
+        }
+
+
         return p;
     }
 
